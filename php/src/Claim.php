@@ -1,5 +1,7 @@
 <?php
 
+namespace Sutyp\Jwt;
+
 class Claim
 {
     public $iss = 'sutyp-concesionarias-api';

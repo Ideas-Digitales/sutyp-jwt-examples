@@ -1,11 +1,9 @@
 <?php
 
-require('./vendor/autoload.php');
+namespace Sutyp\Jwt;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-
-require('PublicKey.php');
 
 class Client
 {
@@ -27,7 +25,7 @@ class Client
 
             return true;
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo('Invalid token: ' . $e);
 

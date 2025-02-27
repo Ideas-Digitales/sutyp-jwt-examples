@@ -1,9 +1,11 @@
 <?php
 
-header('Content-type: application/json');
+use Sutyp\Jwt\Client;
+use Sutyp\Jwt\Server;
 
-require('src/Server.php');
-require('src/Client.php');
+require_once __DIR__ . '/vendor/autoload.php';
+
+header('Content-type: application/json');
 
 $server = new Server;
 
@@ -17,16 +19,9 @@ if ($client)
 
     echo json_encode(array
     (
-        'token_verified' => array
-        (
-            'iss' => $decoded['iss'],
-            'aud' => $decoded['aud'],
-            'sub' => $decoded['sub'],
-            'exp' => $decoded['exp'],
-            'iat' => $decoded['iat']
-        ),
-        'message' => 'Token is valid.'
-    ));
+        'message' => 'Token is valid.',
+        'jwt' => $decoded,
+    ), JSON_PRETTY_PRINT);
 }
 else
 {

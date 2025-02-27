@@ -1,12 +1,8 @@
 <?php
 
-require('./vendor/autoload.php');
+namespace Sutyp\Jwt;
 
 use Firebase\JWT\JWT;
-
-require('Claim.php');
-require('PrivateKey.php');
-
 class Server
 {
     public $dateTime;
@@ -26,7 +22,7 @@ class Server
         $aud = $claim->getAudience();
         $sub = $claim->getSubject();
 
-        $dateTime = new DateTime();
+        $dateTime = new \DateTime();
 
         $milliseconds = $dateTime->format('U') * 1000 + $dateTime->format('v');
 
