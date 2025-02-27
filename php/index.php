@@ -7,20 +7,21 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 header('Content-type: application/json');
 
+// JWT Generado por SUTyP
 $server = new Server;
-
 $jwt = $server->getJWT();
 
-$client = new Client($jwt);
+// Solicitud HTTP desde SUTyP con el JWT generado
+
+// JWT Validado por la concesionaria
+$client = new Client();
 
 if ($client)
 {
-    $decoded = $client->getDecoded();
-
     echo json_encode(array
     (
         'message' => 'Token is valid.',
-        'jwt' => $decoded,
+        'jwt' => $client->validateJWT($jwt)->getDecoded(),
     ), JSON_PRETTY_PRINT);
 }
 else

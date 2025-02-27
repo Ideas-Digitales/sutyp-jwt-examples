@@ -11,26 +11,30 @@ class Client
 
     public $decoded;
 
-    function __construct($jwt)
+    function __construct()
     {
         $this->publicKey = (new PublicKey)->getPublicKey();
+    }
 
-        try
-        {
-            $decoded = JWT::decode($jwt, new Key($this->publicKey, 'RS256'));
-
-            $decodedArray = (array) $decoded;
-
-            $this->decoded = $decodedArray;
-
-            return true;
-        }
-        catch (\Exception $e)
-        {
-            echo('Invalid token: ' . $e);
-
-            return false;
-        }
+    /**
+     * @param string $jwt
+     * 
+     * @throws InvalidArgumentException
+     * @throws DomainException
+     * @throws UnexpectedValueException
+     * @throws SignatureInvalidException
+     * @throws BeforeValidException
+     * @throws BeforeValidException
+     * @throws ExpiredException
+     * 
+     * @return self 
+     */
+    function validateJWT($jwt): self
+    {
+        $decoded = JWT::decode($jwt, new Key($this->publicKey, 'RS256'));
+        $decodedArray = (array) $decoded;
+        $this->decoded = $decodedArray;
+        return $this;
     }
 
     function getDecoded()

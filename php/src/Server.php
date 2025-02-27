@@ -14,36 +14,30 @@ class Server
 
     public $jwt;
 
+    private $claim;
+
     function __construct()
     {
-        $claim = new Claim;
+        $this->claim = new Claim();
+    }
 
-        $iss = $claim->getIssuer();
-        $aud = $claim->getAudience();
-        $sub = $claim->getSubject();
-
+    function getJWT()
+    {
         $dateTime = new \DateTime();
-
         $milliseconds = $dateTime->format('U') * 1000 + $dateTime->format('v');
-
         $exp = floor($milliseconds / 1000) + 3600;
-
         $this->privateKey = (new PrivateKey)->getPrivateKey();
 
         $this->payload =
         [
-            'iss' => $iss,
-            'aud' => $aud,
-            'sub' => $sub,
+            'iss' => $this->claim->getIssuer(),
+            'aud' => $this->claim->getAudience(),
+            'sub' => $this->claim->getSubject(),
             'exp' => $exp,
             'iat' => floor($milliseconds / 1000)
         ];
 
         $this->jwt = JWT::encode($this->payload, $this->privateKey, 'RS256');
-    }
-
-    function getJWT()
-    {
         return $this->jwt;
     }
 }
